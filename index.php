@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --pastel-pink: #ffdae0;
+            --soft-pink-bg: #fff0f3;
+            --dark-pink: #ff8fa3;
+            --text-color: #555;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            /* Pastel Pink Background */
+            background-color: var(--soft-pink-bg);
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+/* --- SIDE GIFS (MODIFIED) --- */
+.side-gif {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 250px; /* Increased size - change this number to go even bigger */
+    height: auto;
+    z-index: 5;
+    pointer-events: none;
+    /* Optional: adds a soft glow to the GIFs to match the pastel theme */
+    filter: drop-shadow(0 0 10px rgba(255, 143, 163, 0.2));
+	animation: floatingGifs 3s ease-in-out infinite;
+}
+
+@keyframes floatingGifs {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    50% { transform: translateY(-55%) translateX(5px); }
+}
+
+.left-gif { 
+    left: 40px; 
+}
+
+.right-gif { 
+    right: 40px; 
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 1100px) {
+    .side-gif { 
+        width: 180px; /* Shrinks slightly on medium screens so they don't hit the card */
+    }
+}
+
+@media (max-width: 800px) {
+    .side-gif { 
+        width: 120px; 
+        left: 10px;
+        right: 10px;
+        opacity: 0.5; /* Makes them slightly transparent on mobile so the text is easier to read */
+    }
+}
+
+        /* --- Envelope Styles --- */
+        .envelope-wrapper {
+            cursor: pointer;
+            position: absolute;
+            z-index: 100;
+            transition: all 0.5s ease;
+        }
+
+        .envelope {
+            position: relative;
+            width: 200px;
+            height: 150px;
+            background-color: var(--pastel-pink);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 10px 25px rgba(255, 143, 163, 0.3);
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-top: 100px solid var(--dark-pink);
+            border-right: 100px solid transparent;
+            border-left: 100px solid transparent;
+            transform-origin: top;
+            transition: transform 0.5s 0.3s ease;
+        }
+
+        .envelope::after {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            width: 0; height: 0;
+            border-top: 80px solid transparent;
+            border-right: 100px solid #ffb3c1;
+            border-bottom: 80px solid var(--pastel-pink);
+            border-left: 100px solid #ffb3c1;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .letter-preview {
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            width: 180px;
+            height: 100px;
+            background: white;
+            border-radius: 5px;
+            z-index: 1;
+            transition: all 0.5s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark-pink);
+            font-family: 'Dancing Script', cursive;
+            font-size: 20px;
+        }
+
+        .envelope-wrapper.open .envelope::before { transform: rotateX(180deg); z-index: 0; }
+        .envelope-wrapper.open .letter-preview { transform: translateY(-100px); z-index: 2; height: 120px; }
+        .envelope-wrapper.open { transform: scale(0.8) translateY(-50px); opacity: 0; pointer-events: none; transition: all 0.5s 0.8s ease; }
+
+        /* --- Main Card --- */
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 45px rgba(255, 143, 163, 0.2);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.5s 1.2s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .card.active { opacity: 1; transform: scale(1); pointer-events: auto; }
+
+        .title { font-family: 'Dancing Script', cursive; font-size: 32px; color: var(--dark-pink); margin-bottom: 20px; }
+        .message-container { font-size: 16px; color: var(--text-color); line-height: 1.8; text-align: left; display: none; }
+
+        /* FADE-IN FOR SPECIAL TAG */
+        #special-tag {
+            font-family: 'Dancing Script', cursive;
+            font-size: 24px;
+            color: var(--dark-pink);
+            margin-top: 20px;
+            text-align: right;
+            opacity: 0;
+        }
+
+        .fade-in-text { animation: tagFadeIn 2s forwards; }
+
+        @keyframes tagFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .heart { position: absolute; color: var(--dark-pink); opacity: 0.5; animation: float 4s infinite linear; pointer-events: none; z-index: 1; }
+        @keyframes float { 0% { transform: translateY(105vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWYwZzAzcWVmZDM0cmZuNmMxMTg3bWw3a2Nwdjhhb2xtZzE3NTE4eCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/KmxmoHUGPDjfQXqGgv/giphy.gif" class="side-gif left-gif" alt="left">
+    
+    <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3c2RidWJ0N3J5MnFzaDU5ZDR0dWoxN201azhpYnNvN3VzeDJxdDVhNiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ch67rqHED7Ue8mKupV/giphy.gif" class="side-gif right-gif" alt="right">
+
+    <audio id="bgMusic" loop>
+    <source src="https://litter.catbox.moe/r5tnphbd60ccuyl6.mp3" type="audio/mpeg">
+	</audio>
+
+    <div class="envelope-wrapper" id="envelopeWrapper" onclick="openEnvelope()">
+        <div class="envelope">
+            <div class="letter-preview">Open Me ❤️</div>
+        </div>
+    </div>
+
+    <div class="card" id="card">
+        <div class="title">A Message For You ❤️</div>
+        
+        <div class="message-container" id="messageBox">
+            <div id="text"></div>
+            <div id="special-tag">— Forever Yours</div>
+        </div>
+    </div>
+
+    <script>
+        const messageText = `I'm sorry if I was too harsh before and didn’t think about your feelings properly. Sometimes I get emotional and selfish, and I’m really trying to be better.
+
+I hope you can forgive me.
+
+I'm not upset about you being busy or not replying. I understand completely.
+
+Today is Valentine’s Day... I don’t have a fancy gift to give you, so I hope this message reaches your heart. Happy Valentine’s Day.
+
+Good luck on your exam tomorrow! I know you'll do amazing. Please focus and do your best—don't worry about me. I'm right here cheering for you.
+
+I’m so happy being with you.
+
+I love you. ❤️`;
+
+    function openEnvelope() {
+    const wrapper = document.getElementById("envelopeWrapper");
+    const card = document.getElementById("card");
+    const music = document.getElementById("bgMusic");
+
+    // 1. Force the music to load and play
+    music.load(); 
+    music.play().then(() => {
+        console.log("Music started successfully!");
+    }).catch(error => {
+        console.log("Browser still blocking audio. Error:", error);
+    });
+
+    // 2. Start the animations
+    wrapper.classList.add("open");
+
+    setTimeout(() => {
+        card.classList.add("active");
+        document.getElementById("messageBox").style.display = "block";
+        typeMessage();
+    }, 1000);
+        }
+
+        let charIndex = 0;
+        function typeMessage() {
+            if (charIndex < messageText.length) {
+                let char = messageText.charAt(charIndex);
+                document.getElementById("text").innerHTML += char === "\n" ? "<br>" : char;
+                charIndex++;
+                setTimeout(typeMessage, 40);
+            } else {
+                // Fade in "Forever Yours"
+                document.getElementById("special-tag").classList.add("fade-in-text");
+            }
+        }
+
+        // Background Hearts
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = Math.random() * 15 + 10 + "px";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 400);
+
+    </script>
+</body>
+</html>
