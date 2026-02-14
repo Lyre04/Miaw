@@ -16,8 +16,9 @@
         }
 
         body {
-            margin: 0;
-            height: 100vh;
+			margin: 0;
+			min-height: 100vh;
+
             /* Pastel Pink Background */
             background-color: var(--soft-pink-bg);
             font-family: 'Quicksand', sans-serif;
@@ -80,9 +81,9 @@
         }
 
         .envelope {
-            position: relative;
-            width: 200px;
-            height: 150px;
+			position: relative;
+			width: min(60vw, 200px);
+			height: calc(min(60vw, 200px) * 0.75);
             background-color: var(--pastel-pink);
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
@@ -118,8 +119,8 @@
             position: absolute;
             bottom: 0;
             left: 10px;
-            width: 180px;
-            height: 100px;
+            width: 90%;
+			height: 65%;
             background: white;
             border-radius: 5px;
             z-index: 1;
@@ -139,12 +140,12 @@
         /* --- Main Card --- */
         .card {
             background: white;
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 15px 45px rgba(255, 143, 163, 0.2);
-            text-align: center;
-            max-width: 450px;
-            width: 90%;
+			padding: clamp(20px, 5vw, 40px);
+			border-radius: 30px;
+			box-shadow: 0 15px 45px rgba(255, 143, 163, 0.2);
+			text-align: center;
+			max-width: 450px;
+			width: 95%;
             opacity: 0;
             transform: scale(0.9);
             transition: all 0.5s 1.2s ease;
@@ -176,6 +177,23 @@
 
         .heart { position: absolute; color: var(--dark-pink); opacity: 0.5; animation: float 4s infinite linear; pointer-events: none; z-index: 1; }
         @keyframes float { 0% { transform: translateY(105vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); } }
+		
+		@media (max-width: 600px) {
+    .side-gif {
+        display: none;
+    }
+}
+
+		@media (max-width: 600px) {
+    .message-container {
+        font-size: 14px;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -269,5 +287,4 @@ I love you. ❤️`;
 
     </script>
 </body>
-
 </html>
